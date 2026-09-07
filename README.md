@@ -37,10 +37,18 @@ tsconfig.json
 package.json
 ```
 
-## Install
+## Install (WSL / Linux — the only supported runtime)
+This project runs under **WSL / Linux**. One-shot setup from the project root:
+```bash
+bash scripts/setup-wsl.sh    # clean install + cypress binary + verify + type-check
+```
+Or manually:
 ```bash
 npm install
+npx cypress install
 ```
+> ⚠️ Never run `npm install` / `cypress run` from **Windows** on this tree — it swaps the
+> native esbuild binary and breaks the WSL run. Windows may run only `npx tsc --noEmit`.
 
 ## Run
 ```bash
@@ -62,6 +70,20 @@ is the fast, best-practice equivalent of an API login. Note: SauceDemo is a SPA 
 
 ## Reports
 HTML + JSON Cucumber reports are generated under `cypress/reports/` after a headless run.
+
+## AI assistance (Cypress AI skills)
+- **`CLAUDE.md`** (repo root) encodes this project's conventions so any AI agent
+  (Claude Code / Cursor / Copilot) writes **on-convention** tests (POM, BDD, fixtures,
+  tags, session login). Read it before generating code.
+- Official **Cypress AI skills** (`cypress-io/ai-toolkit`) — install project-scoped so
+  the whole team shares them. In **WSL**:
+  ```bash
+  npx skills add cypress-io/ai-toolkit
+  ```
+  or via the Claude Community Plugins marketplace (search the `cypress` plugin).
+  Useful here: `cypress-author` (write/fix tests), `cypress-explain` (review),
+  `cypress-docs` (search docs). `cypress-tap` needs a live session and
+  `cypress-cloud-cli` needs a Cypress Cloud account — not wired up.
 
 ## CI
 GitHub Actions (`.github/workflows/e2e.yml`) runs the suite on **Ubuntu** for every
