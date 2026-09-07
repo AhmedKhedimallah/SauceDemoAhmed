@@ -9,6 +9,7 @@
     "cy:run": "cypress run",
     "test:login": "cypress run --spec \"cypress/e2e/features/login.feature\"",
     "test:filter": "cypress run --env tags=\"@filter\"",
+    "test:cart": "cypress run --env tags=\"@cart\"",
     "test:smoke": "cypress run --env tags=\"@smoke\"",
     "test:headed": "cypress run --headed --browser chrome"
   },
