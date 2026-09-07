@@ -1,0 +1,34 @@
+{
+  "name": "saucedemo-cypress-bdd",
+  "version": "1.0.0",
+  "description": "Automation project for SauceDemo Login - Cypress + Cucumber (BDD) with Page Object Model",
+  "author": "Ahmed - QA Automation Lead",
+  "license": "ISC",
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "test:login": "cypress run --spec \"cypress/e2e/features/login.feature\"",
+    "test:headed": "cypress run --headed --browser chrome"
+  },
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^20.1.0",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
+    "@types/node": "^20.19.43",
+    "cypress": "^13.15.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.9.3"
+  },
+  "cypress-cucumber-preprocessor": {
+    "stepDefinitions": [
+      "cypress/support/step_definitions/**/*.ts"
+    ],
+    "html": {
+      "enabled": true,
+      "output": "cypress/reports/cucumber-report.html"
+    },
+    "json": {
+      "enabled": true,
+      "output": "cypress/reports/cucumber-report.json"
+    }
+  }
+}

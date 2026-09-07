@@ -1,0 +1,9 @@
+# Normalize line endings to LF across all platforms (WSL / Linux / CI).
+* text=auto eol=lf
+
+# Binary assets must never be normalized.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
