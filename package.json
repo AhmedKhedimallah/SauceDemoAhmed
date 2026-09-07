@@ -8,6 +8,8 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "test:login": "cypress run --spec \"cypress/e2e/features/login.feature\"",
+    "test:filter": "cypress run --env tags=\"@filter\"",
+    "test:smoke": "cypress run --env tags=\"@smoke\"",
     "test:headed": "cypress run --headed --browser chrome"
   },
   "devDependencies": {
@@ -22,6 +24,8 @@
     "stepDefinitions": [
       "cypress/support/step_definitions/**/*.ts"
     ],
+    "filterSpecs": true,
+    "omitFiltered": true,
     "html": {
       "enabled": true,
       "output": "cypress/reports/cucumber-report.html"

@@ -33,5 +33,3 @@ Feature: SauceDemo - Products sorting / filter
   Scenario: Sort products by Price (high to low)
     When I sort the products by "Price (high to low)"
     Then the product prices should be sorted in "descending" order
-
-    @endtoend
