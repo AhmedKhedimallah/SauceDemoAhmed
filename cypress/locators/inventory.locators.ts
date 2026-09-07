@@ -10,6 +10,7 @@ const inventoryLocators = {
 
   // Sorting / filter feature
   sortDropdown: "[data-test='product-sort-container']",
+  selectedOption: "option:selected",
   itemName: "[data-test='inventory-item-name']",
   itemPrice: "[data-test='inventory-item-price']",
 

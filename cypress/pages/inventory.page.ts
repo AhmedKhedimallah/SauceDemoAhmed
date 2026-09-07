@@ -29,7 +29,7 @@ class InventoryPage {
   /** Currently selected sort option (visible text). */
   verifyActiveSortOption(expectedLabel: string): this {
     cy.get(inventoryLocators.sortDropdown)
-      .find("option:selected")
+      .find(inventoryLocators.selectedOption)
       .should("have.text", expectedLabel);
     return this;
   }
