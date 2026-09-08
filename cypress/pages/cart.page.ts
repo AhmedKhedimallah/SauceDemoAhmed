@@ -17,6 +17,22 @@ verifyAddedProductsInCart(): this {
   return this;
 }
 
+verifySelectedProductPrice(): this {
+  cy.get<string>("@selectedProductPrice").then((price) => {
+    cy.get(cartLocators.productItemPrice)
+      .should("contain.text", price);
+  });
+  return this;
+}
+
+verifySelectedProductDescription(): this {
+  cy.get<string>("@selectedProductDescription").then((description) => {
+    cy.get(cartLocators.productItemDescription)
+      .should("contain.text", description);
+  });
+  return this;
+}
+
 
 
   }

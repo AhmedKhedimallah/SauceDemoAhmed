@@ -27,27 +27,44 @@ class InventoryPage {
     return this;
   }
 
-  // ---- Cart actions (performed on the inventory page) ----
+ // ---- Cart actions (performed on the inventory page) ----
 
-  /**
-   * Find the cheapest product on the inventory page, add it to the cart, and
-   * remember its name via the @selectedProduct alias for later assertions.
-   */
-  addCheapestProductToCart(): this {
-    cy.get(inventoryLocators.itemName).then(($names) => {
-      cy.get(inventoryLocators.itemPrice).then(($prices) => {
+/**
+ * Find the cheapest product on the inventory page, add it to the cart,
+ * and remember its name, price, and description via Cypress aliases
+ * for later assertions.
+ */
+addCheapestProductToCart(): this {
+  cy.get(inventoryLocators.itemName).then(($names) => {
+    cy.get(inventoryLocators.itemPrice).then(($prices) => {
+      cy.get(inventoryLocators.ProductItemDescription).then(($descriptions) => {
         const items = [...$names].map((el, i) => ({
           name: el.innerText.trim(),
-          price: parseFloat($prices[i].innerText.replace("$", "").trim()),
+          price: parseFloat(
+            $prices[i].innerText.replace("$", "").trim()
+          ),
+          description: $descriptions[i].innerText.trim(),
         }));
-        const cheapest = items.reduce((a, b) => (b.price < a.price ? b : a));
+
+        const cheapest = items.reduce((a, b) =>
+          b.price < a.price ? b : a
+        );
+
+        // Store product information for later assertions
         cy.wrap(cheapest.name).as("selectedProduct");
-        cy.get(inventoryLocators.addToCartButton(slugify(cheapest.name))).click();
+        cy.wrap(cheapest.price.toFixed(2)).as("selectedProductPrice");
+        cy.wrap(cheapest.description).as("selectedProductDescription");
+
+        // Add the cheapest product to the cart
+        cy.get(
+          inventoryLocators.addToCartButton(slugify(cheapest.name))
+        ).click();
       });
     });
-    return this;
-  }
+  });
 
+  return this;
+}
   /** Add a fixed list of products by name and remember them via @addedProducts. */
   addProducts(names: string[]): this {
     cy.wrap(names).as("addedProducts");
