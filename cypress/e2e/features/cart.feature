@@ -29,12 +29,16 @@ Feature: SauceDemo - Cart
     Then all added products should be listed in the cart
 
     @cart
-  Scenario: Remove product to the cart
+Scenario 4: Redirect to the checkout information page
 
-   When I add the cheapest product to the cart
-    Then the cart badge should show "1"
-      When I remove the selected product from the cart
-  Then the cart badge should decrease by 1
-  And the selected product should no longer be displayed in the cart
+  When I add the following products to the cart:
+    | Sauce Labs Backpack   |
+    | Sauce Labs Bike Light |
+    | Sauce Labs Bolt T-Shirt |
+  Then the cart badge should show "3"
+  When I open the cart
+  And I click the "Checkout" button
+  Then the checkout information page should be displayed
+  Then the cart badge should show "3"
 
 

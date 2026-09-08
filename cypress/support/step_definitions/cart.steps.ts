@@ -99,3 +99,13 @@ Then("the cart badge should decrease by 1", () => {
 Then("the selected product should no longer be displayed in the cart", () => {
   cartPage.verifySelectedProductNotInCart();
 });
+//Scenario 4: Redirect to the checkout information page
+When("I click on the checkout button", () => {
+  cartPage.goToCheckout();
+});
+
+Then("the checkout information page should be displayed", () => {
+  cy.url().should("include", "/checkout-step-one.html");
+});
+
+
