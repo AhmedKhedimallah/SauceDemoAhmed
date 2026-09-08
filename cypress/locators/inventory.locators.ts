@@ -6,13 +6,15 @@
 const inventoryLocators = {
   // Login success assertion
   inventoryContainer: "[data-test='inventory-container']",
-  pageTitle: ".title",
+  pageTitle: "[data-test='title']",
 
   // Sorting / filter feature
   sortDropdown: "[data-test='product-sort-container']",
   selectedOption: "option:selected",
   itemName: "[data-test='inventory-item-name']",
   itemPrice: "[data-test='inventory-item-price']",
+  // Every product image: data-test ends with "-img" (e.g. inventory-item-<slug>-img)
+  itemImage: "[data-test$='-img']",
 
   // Cart actions (add/remove buttons are per-product, built from the name slug)
   cartIcon: "[data-test='shopping-cart-link']",

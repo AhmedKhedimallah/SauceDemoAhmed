@@ -15,10 +15,6 @@
     "invalidUser": {
       "username": "invalid_user",
       "password": "wrong_password"
-    },
-    "emptyCredentials": {
-      "username": "",
-      "password": ""
     }
   },
   "messages": {

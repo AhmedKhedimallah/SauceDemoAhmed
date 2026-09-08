@@ -58,7 +58,8 @@ class LoginPage {
   }
 
   verifyStillOnLoginPage(): this {
-    cy.url().should("eq", "https://www.saucedemo.com/");
+    // Derive from baseUrl (no trailing slash) instead of hard-coding the URL.
+    cy.url().should("eq", `${Cypress.config("baseUrl")}/`);
     return this;
   }
 }

@@ -55,11 +55,12 @@ cypress/
   `{ failOnStatusCode: false }`, or the visit fails.
 
 ## Tags & scripts
-- Tag scenarios: `@smoke`, `@filter`, `@cart`, `@endtoend`.
+- Tag scenarios: `@smoke`, `@filter`, `@cart`, `@endtoend`, `@negative`, `@positive`,
+  `@problemuser`.
 - Run subsets via tags: `npx cypress run --env tags="@cart"`.
 - `filterSpecs`/`omitFiltered` are enabled → tag runs load only matching specs.
 - npm scripts: `cy:run`, `cy:open`, `test:login`, `test:filter`, `test:cart`,
-  `test:smoke`, `test:headed`. Type-check: `npx tsc --noEmit`.
+  `test:integrity`, `test:smoke`, `test:headed`. Type-check: `npx tsc --noEmit`.
 
 ## Runtime environment — IMPORTANT
 - This project runs under **WSL / Linux** (and CI Ubuntu). Cypress & esbuild ship

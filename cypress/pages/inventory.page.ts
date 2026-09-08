@@ -57,6 +57,23 @@ class InventoryPage {
     });
     return this;
   }
+
+  /**
+   * Known problem_user defect: every product shows the same broken image.
+   * Asserts all product images share a single src (a standard user has one
+   * distinct image per product).
+   */
+  verifyAllProductImagesIdentical(): this {
+    cy.get(inventoryLocators.itemImage).then(($imgs) => {
+      const srcs = [...$imgs].map((el) => el.getAttribute("src"));
+      expect(srcs.length, "product images present").to.be.greaterThan(1);
+      expect(
+        new Set(srcs).size,
+        "all product images share the same src (problem_user defect)"
+      ).to.equal(1);
+    });
+    return this;
+  }
 }
 
 export default new InventoryPage();
