@@ -1,103 +1,146 @@
-# SauceDemo - Cypress BDD Automation (Login)
+# SauceDemo — Cypress BDD Automation (POM)
 
-Automation framework for the **Login** feature of [SauceDemo](https://www.saucedemo.com/).
+> Package : `saucedemo-cypress-bdd` · Auteur : **Ahmed — QA Automation Lead**
+> Application cible : [SauceDemo](https://www.saucedemo.com)
 
-## Tech & approach
-- **TypeScript** (fully typed, `tsc --noEmit` type-check gate)
-- **Cypress** (E2E runner)
-- **Cucumber / Gherkin** (BDD) via `@badeball/cypress-cucumber-preprocessor`
-- **Page Object Model (POM)** design pattern
-- **Independent tests** — each scenario re-opens the page (no shared state)
-- **Separation of concerns**: data / locators / page methods / steps split into folders
+Projet d'automatisation de tests end-to-end pour **SauceDemo**, construit avec
+**Cypress** + **Cucumber (BDD/Gherkin)** et une architecture **Page Object Model**
+stricte, en **TypeScript**. Le dépôt embarque en plus une suite de **skills IA
+personnalisés** qui industrialisent l'écriture des tests en imposant les conventions
+du projet.
 
-## Project structure
+---
+
+## Stack
+
+- **Cypress** + **@badeball/cypress-cucumber-preprocessor** (BDD/Gherkin) + **esbuild**
+- **TypeScript** partout (`tsc --noEmit` doit rester vert)
+- Reporter Cucumber HTML + JSON (`cypress/reports/`)
+
+## Architecture (POM + BDD) — non négociable
+
 ```
 cypress/
-├── e2e/features/                  # .feature files (Gherkin scenarios)
-│   ├── login.feature
-│   └── inventory-filter.feature
-├── fixtures/                      # Test DATA (one file per feature)
-│   └── login.data.json            #   sections: users / messages
-├── locators/                      # SELECTORS only (only what is used)
-│   ├── login.locators.ts
-│   └── inventory.locators.ts
-├── pages/                         # Page methods (POM)
-│   ├── login.page.ts
-│   └── inventory.page.ts
+├── e2e/features/          # *.feature — scénarios Gherkin, un fichier par feature
+├── fixtures/              # *.data.json — une fixture par feature (sections internes)
+├── locators/              # *.locators.ts — SÉLECTEURS UNIQUEMENT
+├── pages/                 # *.page.ts — méthodes POM (actions + vérifications)
 └── support/
-    ├── step_definitions/          # Step definitions (test cases glue)
-    │   ├── login.steps.ts
-    │   └── inventory-filter.steps.ts
-    ├── types.ts                   # Shared fixture types
-    ├── index.d.ts                 # Custom command typings (loginBySession)
-    ├── e2e.ts
-    └── commands.ts                # cy.loginBySession (session-cached login)
-cypress.config.ts
-tsconfig.json
-package.json
+    ├── step_definitions/  # *.steps.ts — glue Gherkin ↔ POM (mince)
+    ├── commands.ts        # commandes custom (cy.loginBySession)
+    ├── index.d.ts         # types des commandes custom
+    ├── types.ts           # types des fixtures
+    └── e2e.ts
 ```
 
-## Install (WSL / Linux — the only supported runtime)
-This project runs under **WSL / Linux**. One-shot setup from the project root:
+**Séparation des responsabilités :**
+- Les **sélecteurs** ne vivent que dans `locators/` (jamais dans une page ni un step).
+- Les **pages** portent le comportement et retournent `this` (chaînables) ; elles
+  importent les locators, jamais de Gherkin.
+- Les **steps** sont minces : résoudre la data, appeler une méthode de page, rien d'autre.
+- Sélecteurs stables uniquement : `[data-test='...']` (jamais XPath ni sélecteur fragile).
+
+**Login programmatique :** `cy.loginBySession(username)` pose le cookie de session
+SauceDemo dans `cy.session()` (mis en cache). Seul `login.feature` pilote l'UI de login.
+
+**Quirk SPA-404 :** `/inventory.html` et `/cart.html` renvoient un statut HTTP **404**
+tout en servant la SPA → tout `cy.visit()` vers ces routes doit passer
+`{ failOnStatusCode: false }`.
+
+## Features couvertes
+
+| Feature | Fichier | Tags |
+|---|---|---|
+| Login (UI) | `login.feature` | `@smoke` `@positive` `@negative` |
+| Tri / filtre produits | `inventory-filter.feature` | `@filter` `@smoke` |
+| Panier | `cart.feature` | `@cart` `@endtoend` |
+| Intégrité visuelle (problem_user) | `inventory-integrity.feature` | `@negative` `@problemuser` |
+
+## Installation & exécution
+
+> ⚠️ **Runtime WSL / Linux uniquement.** Cypress & esbuild embarquent des binaires
+> natifs par OS dans `node_modules`. Ne PAS lancer `npm install` ni `cypress run`
+> depuis Windows sur cet arbre partagé (cela casse le binaire esbuild WSL).
+> Windows peut seulement exécuter `npx tsc --noEmit`.
+
 ```bash
-bash scripts/setup-wsl.sh    # clean install + cypress binary + verify + type-check
+# une fois, sous WSL
+npm install && npx cypress install
+
+# lancer les tests (WSL)
+npm run cy:open          # mode interactif
+npm run cy:run           # tout, headless
+npm run test:login       # feature login
+npm run test:filter      # tag @filter
+npm run test:cart        # tag @cart
+npm run test:integrity   # tag @problemuser
+npm run test:smoke       # tag @smoke
+npm run test:headed      # headed (Chrome)
+
+# type-check (OK depuis Windows)
+npx tsc --noEmit
 ```
-Or manually:
+
+Exécution par tag : `npx cypress run --env tags="@cart"`
+(`filterSpecs`/`omitFiltered` sont activés → seuls les specs correspondants sont chargés).
+
+---
+
+## Skills IA personnalisés
+
+Le projet fournit une chaîne de **skills** (dans `.claude/skills/`), chacun adossé à un
+sous-agent dédié, qui génèrent/maintiennent le code de test **en respectant
+l'architecture ci-dessus**. C'est le cœur de la démarche « test assisté par l'IA » du
+projet : au lieu de laisser l'IA produire du Cypress générique, ces skills lui imposent
+les conventions (séparation stricte, sélecteurs `data-test`, une fixture par feature,
+dédoublonnage, quirk SPA-404).
+
+### Comment les appeler
+
+Taper le nom de la commande dans Claude Code, éventuellement suivi de la feature cible.
+L'ordre recommandé pour bâtir une feature complète est **data → locators → pages → steps**.
+
+| Skill | Commande | Rôle | Écrit dans |
+|---|---|---|---|
+| **data** | `/data <feature>` | Extrait la data du `.feature` (Examples, DataTables, valeurs entre guillemets, clés) | `cypress/fixtures/<feature>.data.json` + type dans `support/types.ts` |
+| **locators** | `/locators <feature>` | Génère uniquement des sélecteurs **stables** (`data-test`…), jamais de XPath ni de sélecteur fragile | `cypress/locators/<page>.locators.ts` |
+| **pages** | `/pages <feature>` | Méthodes POM (actions + vérifications), **conscient du dédoublonnage** (réutilise / refactorise plutôt que dupliquer) | `cypress/pages/<page>.page.ts` |
+| **steps** | `/steps <feature>` | Step definitions minces (glue Gherkin ↔ POM), couvre chaque scénario, réutilise les steps partagés | `cypress/support/step_definitions/<feature>.steps.ts` |
+
+Chaque skill **lit d'abord** le `.feature` ciblé et les fichiers existants pour éviter
+toute duplication, puis n'ajoute que le strict nécessaire.
+
+### Recette — ajouter une nouvelle feature (ex. « checkout »)
+
+1. `cypress/e2e/features/checkout.feature` — Gherkin, `Background` qui login via session.
+2. `/data checkout` → fixture + type.
+3. `/locators checkout` → sélecteurs `data-test` utilisés.
+4. `/pages checkout` → méthodes POM retournant `this`.
+5. `/steps checkout` → glue mince couvrant tous les scénarios.
+6. Taguer les scénarios, ajouter un script `test:checkout`, lancer `npx tsc --noEmit`
+   puis la suite (WSL).
+
+### Skill complémentaire : `cypress-docs`
+
+Installée depuis [`cypress-io/ai-toolkit`](https://github.com/cypress-io/ai-toolkit)
+via `npx skills add`, la skill **`cypress-docs`** ancre les réponses sur la
+**documentation Cypress officielle** (`docs.cypress.io`, en privilégiant les versions
+markdown `/llm/*`) et **refuse d'inventer** une API ou un comportement non vérifiable.
+Elle intervient sur les questions de doc/API Cypress ; elle **ne remplace pas** les
+skills d'écriture ci-dessus (qui restent l'autorité pour produire les tests POM/BDD).
+
 ```bash
-npm install
-npx cypress install
-```
-> ⚠️ Never run `npm install` / `cypress run` from **Windows** on this tree — it swaps the
-> native esbuild binary and breaks the WSL run. Windows may run only `npx tsc --noEmit`.
-
-## Run
-```bash
-npm run cy:open        # interactive mode
-npm run cy:run         # headless, all features
-npm run test:login     # login feature only
-npm run test:headed    # headed Chrome
-npx tsc --noEmit       # type-check only
+# ré-installation / mise à jour de la skill de doc (n'affecte pas node_modules)
+npx skills add cypress-io/ai-toolkit --skill cypress-docs --agent claude-code --copy -y
 ```
 
-## Session / programmatic login
-The inventory tests do **not** log in through the UI. `cy.loginBySession(username)`
-(in `support/commands.ts`) sets the SauceDemo session cookie (`session-username`)
-inside `cy.session()`, so the session is created once and cached across specs.
-SauceDemo has no real auth API — this cookie is its only session artifact, so this
-is the fast, best-practice equivalent of an API login. Note: SauceDemo is a SPA and
-`/inventory.html` returns a 404 status while serving the app, hence
-`failOnStatusCode: false` on that visit.
+> Les conventions détaillées appliquées par ces skills sont décrites dans
+> [`CLAUDE.md`](./CLAUDE.md) à la racine.
 
-## Reports
-HTML + JSON Cucumber reports are generated under `cypress/reports/` after a headless run.
+---
 
-## AI assistance (Cypress AI skills)
-- **`CLAUDE.md`** (repo root) encodes this project's conventions so any AI agent
-  (Claude Code / Cursor / Copilot) writes **on-convention** tests (POM, BDD, fixtures,
-  tags, session login). Read it before generating code.
-- Official **Cypress AI skills** (`cypress-io/ai-toolkit`) — install project-scoped so
-  the whole team shares them. In **WSL**:
-  ```bash
-  npx skills add cypress-io/ai-toolkit
-  ```
-  or via the Claude Community Plugins marketplace (search the `cypress` plugin).
-  Useful here: `cypress-author` (write/fix tests), `cypress-explain` (review),
-  `cypress-docs` (search docs). `cypress-tap` needs a live session and
-  `cypress-cloud-cli` needs a Cypress Cloud account — not wired up.
+## Definition of done (toute modification)
 
-## CI
-GitHub Actions (`.github/workflows/e2e.yml`) runs the suite on **Ubuntu** for every
-push / PR: `npm ci` → `tsc --noEmit` → login feature, with report/screenshot artifacts.
-Linux is the neutral reference (same platform as WSL) — do not mix Windows and WSL
-installs on the same `node_modules`.
-
-## Test accounts (SauceDemo)
-| Account          | Result                                   |
-|------------------|------------------------------------------|
-| `standard_user`  | Success → inventory page                 |
-| `locked_out_user`| "Sorry, this user has been locked out."  |
-| invalid creds    | "...do not match any user..."            |
-| empty username   | "Username is required"                   |
-| empty password   | "Password is required"                   |
-
-Password for valid accounts: `secret_sauce`
+- `npx tsc --noEmit` passe (0 erreur).
+- Le `npm run test:*` concerné passe en WSL.
+- Aucun sélecteur hors de `locators/`, aucune data en dur hors de `fixtures/`.
