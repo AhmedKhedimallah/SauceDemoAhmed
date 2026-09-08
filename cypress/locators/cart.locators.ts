@@ -9,6 +9,12 @@
 const cartLocators = {
   // Product name row inside a cart line item (used to assert listed products).
   cartItemName: "[data-test='inventory-item-name']",
+  butttonContinueShopping: "[data-test='continue-shopping']",
+  buttonCheckout: "[data-test='checkout']",
+  buttonRemove: "[data-test='remove-']",
+  productItemName: "[data-test='inventory_item_name']",
+  productItemDescription: "[data-test='inventory_item_desc']",
+  productItemPrice: "[data-test='inventory_item_price']",
 } as const;
 
 export default cartLocators;
