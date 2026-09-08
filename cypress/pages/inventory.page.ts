@@ -1,9 +1,7 @@
 import inventoryLocators from "../locators/inventory.locators";
+import { slugify } from "../support/utils";
 
 export type SortOrder = "ascending" | "descending";
-
-/** Convert a product name to the data-test slug, e.g. "Sauce Labs Onesie" -> "sauce-labs-onesie". */
-const slugify = (name: string): string => name.toLowerCase().replace(/\s+/g, "-");
 
 /**
  * InventoryPage - Page Object Model for the products (inventory) page.

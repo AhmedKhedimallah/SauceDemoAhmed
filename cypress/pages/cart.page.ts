@@ -1,4 +1,6 @@
 import cartLocators from "../locators/cart.locators";
+import { slugify } from "../support/utils";
+
 class CartPage {
 
  verifySelectedProductInCart(): this {
