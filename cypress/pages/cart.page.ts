@@ -55,7 +55,7 @@ goToCheckout(): this {
 }
 
 verifySelectedProductNotInCart(): this {
-  cy.get("@selectedProduct").then((name) => {
+  cy.get<string>("@selectedProduct").then((name) => {
     cy.contains(cartLocators.cartItemName, name)
       .should("not.exist");
   });

@@ -1,7 +1,6 @@
 import {
   When,
   Then,
-  And,
   DataTable,
 } from "@badeball/cypress-cucumber-preprocessor";
 import inventoryPage from "../../pages/inventory.page";
@@ -96,6 +95,7 @@ Then("the cart badge should decrease by 1", () => {
   cy.get(inventoryLocators.cartBadge).should("not.exist");
 });
 
-And("the selected product should no longer be displayed in the cart", () => {
+// Scenario 3 — after removal, the product must no longer appear in the cart.
+Then("the selected product should no longer be displayed in the cart", () => {
   cartPage.verifySelectedProductNotInCart();
 });
