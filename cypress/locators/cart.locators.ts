@@ -1,14 +1,14 @@
 /**
  * Cart page (/cart.html) locators.
  * Only what the cart tests assert on.
+ *
+ * Note: cart items reuse SauceDemo's `inventory-item-*` data-test attributes,
+ * so cart-icon / badge / add / remove selectors are NOT redeclared here — the
+ * cart page object reuses the equivalents from inventory.locators.ts.
  */
 const cartLocators = {
+  // Product name row inside a cart line item (used to assert listed products).
   cartItemName: "[data-test='inventory-item-name']",
-  buttonRemove: "[data-test='remove-']",
-  buttonCheckout:"[data-test='checkout']",
-  buttoncontinueShopping:"[data-test='continue-shopping']",
-  iconeshoppingCartLink: "[data-test='shopping-cart-link']",
-  iconeshoppingCartBadge: "[data-test='shopping-cart-badge']",
 } as const;
 
 export default cartLocators;

@@ -2,6 +2,9 @@ import inventoryLocators from "../locators/inventory.locators";
 
 export type SortOrder = "ascending" | "descending";
 
+/** Convert a product name to the data-test slug, e.g. "Sauce Labs Onesie" -> "sauce-labs-onesie". */
+const slugify = (name: string): string => name.toLowerCase().replace(/\s+/g, "-");
+
 /**
  * InventoryPage - Page Object Model for the products (inventory) page.
  * Holds ONLY the page behaviours; selectors live in /locators.
@@ -24,7 +27,67 @@ class InventoryPage {
     return this;
   }
 
+  // ---- Cart actions (performed on the inventory page) ----
+
+  /**
+   * Find the cheapest product on the inventory page, add it to the cart, and
+   * remember its name via the @selectedProduct alias for later assertions.
+   */
+  addCheapestProductToCart(): this {
+    cy.get(inventoryLocators.itemName).then(($names) => {
+      cy.get(inventoryLocators.itemPrice).then(($prices) => {
+        const items = [...$names].map((el, i) => ({
+          name: el.innerText.trim(),
+          price: parseFloat($prices[i].innerText.replace("$", "").trim()),
+        }));
+        const cheapest = items.reduce((a, b) => (b.price < a.price ? b : a));
+        cy.wrap(cheapest.name).as("selectedProduct");
+        cy.get(inventoryLocators.addToCartButton(slugify(cheapest.name))).click();
+      });
+    });
+    return this;
+  }
+
+  /** Add a fixed list of products by name and remember them via @addedProducts. */
+  addProducts(names: string[]): this {
+    cy.wrap(names).as("addedProducts");
+    names.forEach((name) => {
+      cy.get(inventoryLocators.addToCartButton(slugify(name))).click();
+    });
+    return this;
+  }
+
+  /** Open the cart from the header icon (navigates to /cart.html). */
+  openCart(): this {
+    cy.get(inventoryLocators.cartIcon).click();
+    cy.url().should("include", "/cart.html");
+    return this;
+  }
+
   // ---- Verifications ----
+
+  verifyCartBadge(count: string): this {
+    cy.get(inventoryLocators.cartBadge).should("have.text", count);
+    return this;
+  }
+
+  /** The single selected product's button must now read "Remove". */
+  verifySelectedProductRemoveButton(): this {
+    cy.get<string>("@selectedProduct").then((name) => {
+      cy.get(inventoryLocators.removeButton(slugify(name))).should("be.visible");
+    });
+    return this;
+  }
+
+  /** Every added product's button must now read "Remove". */
+  verifyAddedProductsRemoveButtons(): this {
+    cy.get<string[]>("@addedProducts").then((names) => {
+      names.forEach((name) => {
+        cy.get(inventoryLocators.removeButton(slugify(name))).should("be.visible");
+      });
+    });
+    return this;
+  }
 
   /** Currently selected sort option (visible text). */
   verifyActiveSortOption(expectedLabel: string): this {
