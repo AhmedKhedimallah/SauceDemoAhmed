@@ -33,6 +33,25 @@ verifySelectedProductDescription(): this {
   return this;
 }
 
+removeSelectedProduct(): this {
+  cy.get<string>("@selectedProduct").then((name) => {
+  cy.get(cartLocators.removeButton(slugify(name))).click();
+  });
+  return this;
+}
+
+continueShopping(): this {
+  cy.get(cartLocators.butttonContinueShopping).click();
+  cy.url().should("include", "/inventory.html");
+  return this;
+}
+
+goToCheckout(): this {
+  cy.get(cartLocators.buttonCheckout).click();
+  cy.url().should("include", "/checkout-step-one.html");
+  return this;
+}
+
 
 
   }

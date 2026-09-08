@@ -11,7 +11,7 @@ const cartLocators = {
   cartItemName: "[data-test='inventory-item-name']",
   butttonContinueShopping: "[data-test='continue-shopping']",
   buttonCheckout: "[data-test='checkout']",
-  buttonRemove: "[data-test='remove-']",
+  removeButton: (slug: string) => `[data-test='remove-${slug}']`,
   productItemName: "[data-test='inventory_item_name']",
   productItemDescription: "[data-test='inventory_item_desc']",
   productItemPrice: "[data-test='inventory_item_price']",
