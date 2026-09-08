@@ -28,4 +28,13 @@ Feature: SauceDemo - Cart
     When I open the cart
     Then all added products should be listed in the cart
 
-    
+    @cart
+  Scenario: Remove product to the cart
+
+   When I add the cheapest product to the cart
+    Then the cart badge should show "1"
+      When I remove the selected product from the cart
+  Then the cart badge should decrease by 1
+  And the selected product should no longer be displayed in the cart
+
+

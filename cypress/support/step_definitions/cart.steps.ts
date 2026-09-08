@@ -1,10 +1,12 @@
 import {
   When,
   Then,
+  And,
   DataTable,
 } from "@badeball/cypress-cucumber-preprocessor";
 import inventoryPage from "../../pages/inventory.page";
-import cartPage from "../../pages/cart.page";
+import cartPage from "../../pages/cart.page"; 
+import inventoryLocators from "../../locators/inventory.locators";
 
 /**
  * Step definitions for the Cart feature (cart.feature).
@@ -82,4 +84,18 @@ Then("the selected product should be listed in the cart", () => {
 // Scenario 2 — all remembered products (@addedProducts) are listed in the cart.
 Then("all added products should be listed in the cart", () => {
   cartPage.verifyAddedProductsInCart();
+});
+
+//  Scenario 3: Remove product to the cart
+
+When("I remove the selected product from the cart", () => {
+  cartPage.removeSelectedProduct();
+});
+
+Then("the cart badge should decrease by 1", () => {
+  cy.get(inventoryLocators.cartBadge).should("not.exist");
+});
+
+And("the selected product should no longer be displayed in the cart", () => {
+  cartPage.verifySelectedProductNotInCart();
 });

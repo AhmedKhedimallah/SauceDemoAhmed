@@ -54,6 +54,15 @@ goToCheckout(): this {
   return this;
 }
 
+verifySelectedProductNotInCart(): this {
+  cy.get("@selectedProduct").then((name) => {
+    cy.contains(cartLocators.cartItemName, name)
+      .should("not.exist");
+  });
+
+  return this;
+}
+
 
 
   }
