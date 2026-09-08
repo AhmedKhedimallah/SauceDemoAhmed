@@ -43,7 +43,7 @@ removeSelectedProduct(): this {
 }
 
 continueShopping(): this {
-  cy.get(cartLocators.butttonContinueShopping).click();
+  cy.get(cartLocators.buttonContinueShopping).click();
   cy.url().should("include", "/inventory.html");
   return this;
 }

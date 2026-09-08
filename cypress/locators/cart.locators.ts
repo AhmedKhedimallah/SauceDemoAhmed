@@ -9,7 +9,7 @@
 const cartLocators = {
   // Product name row inside a cart line item (used to assert listed products).
   cartItemName: "[data-test='inventory-item-name']",
-  butttonContinueShopping: "[data-test='continue-shopping']",
+  buttonContinueShopping: "[data-test='continue-shopping']",
   buttonCheckout: "[data-test='checkout']",
   removeButton: (slug: string) => `[data-test='remove-${slug}']`,
   productItemName: "[data-test='inventory_item_name']",
