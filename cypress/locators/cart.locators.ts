@@ -12,9 +12,8 @@ const cartLocators = {
   buttonContinueShopping: "[data-test='continue-shopping']",
   buttonCheckout: "[data-test='checkout']",
   removeButton: (slug: string) => `[data-test='remove-${slug}']`,
-  productItemName: "[data-test='inventory_item_name']",
-  productItemDescription: "[data-test='inventory_item_desc']",
-  productItemPrice: "[data-test='inventory_item_price']",
+  productItemDescription: "[data-test='inventory-item-desc']",
+  productItemPrice: "[data-test='inventory-item-price']",
 } as const;
 
 export default cartLocators;

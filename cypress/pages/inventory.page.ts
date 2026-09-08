@@ -35,7 +35,7 @@ class InventoryPage {
 addCheapestProductToCart(): this {
   cy.get(inventoryLocators.itemName).then(($names) => {
     cy.get(inventoryLocators.itemPrice).then(($prices) => {
-      cy.get(inventoryLocators.ProductItemDescription).then(($descriptions) => {
+      cy.get(inventoryLocators.itemDescription).then(($descriptions) => {
         const items = [...$names].map((el, i) => ({
           name: el.innerText.trim(),
           price: parseFloat(

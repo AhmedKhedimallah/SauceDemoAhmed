@@ -27,3 +27,5 @@ Feature: SauceDemo - Cart
     And each added product button should change to "Remove"
     When I open the cart
     Then all added products should be listed in the cart
+
+    
