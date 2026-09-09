@@ -26,10 +26,10 @@ Feature: SauceDemo - Information
     And I click on the checkout button
     And I enter "<firstName>" as first name, "<lastName>" as last name, and "<postalCode>" as postal code
     And I click Continue
-    Then the "<errorMessage>" error message should be displayed
+    Then the "<messageKey>" error message should be displayed
 
     Examples:
-      | firstName | lastName | postalCode | errorMessage                  |
-      | John      | Doe      |            | Error: Postal Code is required |
-      |           | Doe      | 6000       | Error: First Name is required  |
-      | John      |          | 6000       | Error: Last Name is required   |
+      | firstName | lastName | postalCode | messageKey       |
+      | John      | Doe      |            | invalidZipcode   |
+      |           | Doe      | 6000       | invalidFirstName |
+      | John      |          | 6000       | invalidLastName  |
