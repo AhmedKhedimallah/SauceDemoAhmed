@@ -1,27 +1,25 @@
 import {
   When,
   Then,
+  DataTable,
 } from "@badeball/cypress-cucumber-preprocessor";
-
 import inventoryPage from "../../pages/inventory.page";
+import cartPage from "../../pages/cart.page"; 
+import inventoryLocators from "../../locators/inventory.locators";
 import informationPage from "../../pages/information.page";
-import cartPage from "../../pages/cart.page";
+import informationLocators from "../../locators/information.locators";
+
 
 // ============================================================
 // ADD PRODUCT
 // ============================================================
 
-When("I add the cheapest product to the cart", () => {
-  inventoryPage.addCheapestProductToCart();
-});
 
 // ============================================================
 // CHECKOUT
 // ============================================================
 
-When("I click on the checkout button", () => {
-  cartPage.goToCheckout();
-});
+
 
 When(
   "I enter {string} as first name, {string} as last name, and {string} as postal code",
@@ -35,7 +33,7 @@ When(
 );
 
 When("I click Continue", () => {
-  informationPage.clickCheckout();
+  informationPage.clickContinue;
 });
 
 // ============================================================
@@ -46,14 +44,10 @@ Then("the user should be redirected to the Overview page", () => {
   cy.url().should("include", "/checkout-step-two.html");
 });
 
-Then("the selected product should be listed in the cart", () => {
-  cy.get<string>("@selectedProduct").then((productName) => {
-    cy.contains(productName).should("be.visible");
-  });
-});
+
 
 Then("the Finish button should be displayed", () => {
-  cy.get("[data-test='finish']").should("be.visible");
+  cy.get(informationLocators.buttonfinish).should("be.visible");
 });
 
 // ============================================================

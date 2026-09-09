@@ -17,7 +17,7 @@ class InformationPage {
     return this;
   }
 
-  clickCheckout(): this {
+  clickContinue(): this {
     cy.get(informationLocators.buttonContinue).click();
 
     return this;

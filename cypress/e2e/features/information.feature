@@ -6,10 +6,12 @@ Feature: SauceDemo - Information
   # Login is done via API/session (cookie) and cached — no UI login here.
   Background:
     Given I am logged in as "standardUser"
+    And I am on the inventory page
 
   @endtoend @information
   Scenario: 1 - Enter valid information
     When I add the cheapest product to the cart
+    When I open the cart
     And I click on the checkout button
     And I enter "John" as first name, "Doe" as last name, and "6000" as postal code
     And I click Continue
@@ -19,7 +21,8 @@ Feature: SauceDemo - Information
 
   @endtoend @information
   Scenario Outline: 2 - Enter invalid information
-    When I add the cheapest product to the cart
+     When I add the cheapest product to the cart
+    When I open the cart
     And I click on the checkout button
     And I enter "<firstName>" as first name, "<lastName>" as last name, and "<postalCode>" as postal code
     And I click Continue

@@ -3,8 +3,9 @@ const informationLocators = {
   firstName: "[data-test='firstName']",
   lastName : "[data-test='lastName']",
   postalCode : "[data-test='postalCode']",
-  buttonContinue : "[data-test='continue']",
+  buttonContinue :"[data-test='continue']",
   buttonCancel : "[data-test='cancel']",
+  buttonfinish : "[data-test='finish']",
  
   
 } as const;
