@@ -1,0 +1,32 @@
+{
+  "information": {
+    "validInformation": {
+      "firstname": "jhon",
+      "lastname": "kh",
+      "zipcode" : "5000"
+    },
+    "invalidinformation 1": {
+      "firstname": "jhon",
+      "lastname": "kh",
+      "zipcode" : "aa"
+    
+  },
+
+   "invalidinformation 2": {
+      "firstname": "",
+      "lastname": "kh",
+      "zipcode" : "6000"
+    
+  },
+  "invalidinformation 2": {
+      "firstname": "rodri",
+      "lastname": "",
+      "zipcode" : "6000"},
+    
+  "messages": {
+
+    "invalidZipcode": "Error: Postal Code is required",
+    "invalidLastName": "Error: Last Name is required",
+    "invalidFirstName": "Error: First Name is required"
+  }
+}

@@ -47,3 +47,4 @@ Feature: SauceDemo - Cart
     When I open the cart
     And I click on the checkout button
     Then the checkout information page should be displayed
+    Then the cart badge should show "3"
