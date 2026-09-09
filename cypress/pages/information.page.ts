@@ -12,7 +12,6 @@ class InformationPage {
     if (firstName) cy.get(informationLocators.firstName).type(firstName);
     if (lastName) cy.get(informationLocators.lastName).type(lastName);
     if (postalCode) cy.get(informationLocators.postalCode).type(postalCode);
-    cy.get(informationLocators.buttonContinue).click();
 
     return this;
   }

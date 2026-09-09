@@ -33,7 +33,7 @@ When(
 );
 
 When("I click Continue", () => {
-  informationPage.clickContinue;
+  informationPage.clickContinue();
 });
 
 // ============================================================
