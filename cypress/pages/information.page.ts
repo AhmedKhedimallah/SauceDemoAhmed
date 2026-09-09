@@ -16,6 +16,13 @@ class InformationPage {
 
     return this;
   }
+
+  clickCheckout(): this {
+    cy.get(informationLocators.buttonContinue).click();
+
+    return this;
+  }
 }
+
 
 export default new InformationPage();
