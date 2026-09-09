@@ -12,15 +12,27 @@
     "test:cart": "cypress run --env tags=\"@cart\"",
     "test:integrity": "cypress run --env tags=\"@problemuser\"",
     "test:smoke": "cypress run --env tags=\"@smoke\"",
-    "test:headed": "cypress run --headed --browser chrome"
+    "test:headed": "cypress run --headed --browser chrome",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^20.1.0",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
+    "@eslint/js": "^9.39.5",
     "@types/node": "^20.19.43",
     "cypress": "^13.15.0",
     "esbuild": "^0.24.0",
-    "typescript": "^5.9.3"
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-chai-friendly": "^1.2.1",
+    "globals": "^17.12.0",
+    "prettier": "^3.9.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.70.0"
   },
   "cypress-cucumber-preprocessor": {
     "stepDefinitions": [

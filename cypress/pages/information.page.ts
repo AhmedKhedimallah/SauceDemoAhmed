@@ -49,5 +49,4 @@ class InformationPage {
   }
 }
 
-
 export default new InformationPage();

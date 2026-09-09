@@ -1,8 +1,4 @@
-import {
-  When,
-  Then,
-  DataTable,
-} from "@badeball/cypress-cucumber-preprocessor";
+import { When, Then, DataTable } from "@badeball/cypress-cucumber-preprocessor";
 import inventoryPage from "../../pages/inventory.page";
 import cartPage from "../../pages/cart.page";
 import informationPage from "../../pages/information.page";
@@ -107,5 +103,3 @@ When("I click on the checkout button", () => {
 Then("the checkout information page should be displayed", () => {
   informationPage.verifyOnInformationPage();
 });
-
-

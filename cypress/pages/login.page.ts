@@ -23,7 +23,9 @@ class LoginPage {
 
   typePassword(password: string): this {
     if (password) {
-      cy.get(loginLocators.passwordInput).clear().type(password, { log: false });
+      cy.get(loginLocators.passwordInput)
+        .clear()
+        .type(password, { log: false });
     }
     return this;
   }
