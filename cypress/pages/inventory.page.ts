@@ -86,6 +86,12 @@ addCheapestProductToCart(): this {
     return this;
   }
 
+  /** After removing the last item the header cart badge disappears entirely. */
+  verifyCartBadgeAbsent(): this {
+    cy.get(inventoryLocators.cartBadge).should("not.exist");
+    return this;
+  }
+
   /** The single selected product's button must now read "Remove". */
   verifySelectedProductRemoveButton(): this {
     cy.get<string>("@selectedProduct").then((name) => {

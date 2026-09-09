@@ -7,7 +7,6 @@ import inventoryPage from "../../pages/inventory.page";
 import cartPage from "../../pages/cart.page"; 
 import inventoryLocators from "../../locators/inventory.locators";
 import informationPage from "../../pages/information.page";
-import informationLocators from "../../locators/information.locators";
 import { InformationData } from "../types";
 
 
@@ -42,13 +41,11 @@ When("I click Continue", () => {
 // ============================================================
 
 Then("the user should be redirected to the Overview page", () => {
-  cy.url().should("include", "/checkout-step-two.html");
+  informationPage.verifyOnOverviewPage();
 });
 
-
-
 Then("the Finish button should be displayed", () => {
-  cy.get(informationLocators.buttonfinish).should("be.visible");
+  informationPage.verifyFinishButtonVisible();
 });
 
 // ============================================================
@@ -63,7 +60,7 @@ Then(
     cy.fixture<InformationData>("information.data").then(({ messages }) => {
       const expected = messages[messageKey];
       expect(expected, `fixture message "${messageKey}"`).to.not.be.undefined;
-      cy.contains(expected).should("be.visible");
+      informationPage.verifyErrorMessage(expected);
     });
   }
 );

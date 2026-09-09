@@ -21,6 +21,32 @@ class InformationPage {
 
     return this;
   }
+
+  // ---- Verifications ----
+
+  /** On the checkout "Your Information" page (/checkout-step-one.html). */
+  verifyOnInformationPage(): this {
+    cy.url().should("include", "/checkout-step-one.html");
+    return this;
+  }
+
+  /** Advanced to the checkout Overview page (/checkout-step-two.html). */
+  verifyOnOverviewPage(): this {
+    cy.url().should("include", "/checkout-step-two.html");
+    return this;
+  }
+
+  verifyFinishButtonVisible(): this {
+    cy.get(informationLocators.buttonfinish).should("be.visible");
+    return this;
+  }
+
+  verifyErrorMessage(expectedMessage: string): this {
+    cy.get(informationLocators.errorMessage)
+      .should("be.visible")
+      .and("have.text", expectedMessage);
+    return this;
+  }
 }
 
 

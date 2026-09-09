@@ -4,8 +4,8 @@ import {
   DataTable,
 } from "@badeball/cypress-cucumber-preprocessor";
 import inventoryPage from "../../pages/inventory.page";
-import cartPage from "../../pages/cart.page"; 
-import inventoryLocators from "../../locators/inventory.locators";
+import cartPage from "../../pages/cart.page";
+import informationPage from "../../pages/information.page";
 
 /**
  * Step definitions for the Cart feature (cart.feature).
@@ -92,7 +92,7 @@ When("I remove the selected product from the cart", () => {
 });
 
 Then("the cart badge should decrease by 1", () => {
-  cy.get(inventoryLocators.cartBadge).should("not.exist");
+  inventoryPage.verifyCartBadgeAbsent();
 });
 
 // Scenario 3 — after removal, the product must no longer appear in the cart.
@@ -105,7 +105,7 @@ When("I click on the checkout button", () => {
 });
 
 Then("the checkout information page should be displayed", () => {
-  cy.url().should("include", "/checkout-step-one.html");
+  informationPage.verifyOnInformationPage();
 });
 
 
