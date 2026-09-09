@@ -6,9 +6,12 @@ class InformationPage {
     lastName: string,
     postalCode: string
   ): this {
-    cy.get(informationLocators.firstName).type(firstName);
-    cy.get(informationLocators.lastName).type(lastName);
-    cy.get(informationLocators.postalCode).type(postalCode);
+    // Only type non-empty values: cy.type("") throws "cannot accept an empty
+    // string". Leaving a field empty is exactly what the required-field negative
+    // cases need, so the app's own validation error can be asserted.
+    if (firstName) cy.get(informationLocators.firstName).type(firstName);
+    if (lastName) cy.get(informationLocators.lastName).type(lastName);
+    if (postalCode) cy.get(informationLocators.postalCode).type(postalCode);
     cy.get(informationLocators.buttonContinue).click();
 
     return this;
