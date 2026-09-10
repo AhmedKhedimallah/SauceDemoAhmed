@@ -33,7 +33,7 @@ Feature: SauceDemo - Information
     And I enter "John" as first name, "Doe" as last name, and "6000" as postal code
     And I click Continue
     Then the user should be redirected to the Overview page
-    And the selected product should be listed in the cart
+    And all added products should be listed in the cart
    Then the total price should be correct
 
    @endtoend @overview
