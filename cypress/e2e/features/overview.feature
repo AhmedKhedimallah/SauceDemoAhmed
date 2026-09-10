@@ -17,4 +17,4 @@ Feature: SauceDemo - Information
     And I click Continue
     Then the user should be redirected to the Overview page
     And the selected product should be listed in the cart
-   Then the total price should be correct.
+   Then the total price should be correct
