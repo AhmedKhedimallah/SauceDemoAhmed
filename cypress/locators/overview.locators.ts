@@ -15,8 +15,8 @@ const overviewLocators = {
   itemTotal : "[data-test='subtotal-label']",
   itemTax : "[data-test='tax-label']",
   totalPrice : "[data-test='total-label']",
-  
- 
+  // Cancel the checkout on the Overview page (/checkout-step-two.html) → back to inventory.
+  buttonCancel: "[data-test='cancel']",
 } as const;
 
 export default overviewLocators;

@@ -2,6 +2,12 @@ import overviewLocators from "../locators/overview.locators";
 
 class OverviewPage {
 
+  /** Cancel the checkout from the Overview page (redirects back to the inventory page). */
+  cancelPayment(): this {
+    cy.get(overviewLocators.buttonCancel).click();
+    return this;
+  }
+
   /**
    * Verify that Item Total equals the sum of all product prices.
    */
