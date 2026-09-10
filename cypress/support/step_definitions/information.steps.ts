@@ -6,12 +6,20 @@ import { InformationData } from "../types";
 // CHECKOUT
 // ============================================================
 
-When(
-  "I enter {string} as first name, {string} as last name, and {string} as postal code",
-  (firstName: string, lastName: string, postalCode: string) => {
-    informationPage.fillCheckoutInformation(firstName, lastName, postalCode);
-  }
-);
+// Checkout identity resolved by key from the "information" section of the fixture
+// (same pattern as login.steps.ts resolving a user by key). The .feature carries
+// keys, not literal names/zip codes — one source of truth in information.data.json.
+When("I enter the {string} checkout information", (infoKey: string) => {
+  cy.fixture<InformationData>("information.data").then(({ information }) => {
+    const info = information[infoKey];
+    expect(info, `fixture information "${infoKey}"`).to.not.be.undefined;
+    informationPage.fillCheckoutInformation(
+      info.firstname,
+      info.lastname,
+      info.zipcode
+    );
+  });
+});
 
 When("I click Continue", () => {
   informationPage.clickContinue();

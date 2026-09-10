@@ -88,24 +88,12 @@ class InventoryPage {
     return this;
   }
 
-  /** The single selected product's button must now read "Remove". */
-  verifySelectedProductRemoveButton(): this {
-    cy.get<string>("@selectedProduct").then((name) => {
+  /** Every given product's button must now read "Remove". Works for 1 or N products. */
+  verifyProductsRemoveButtons(names: string[]): this {
+    names.forEach((name) => {
       cy.get(inventoryLocators.removeButton(slugify(name))).should(
         "be.visible"
       );
-    });
-    return this;
-  }
-
-  /** Every added product's button must now read "Remove". */
-  verifyAddedProductsRemoveButtons(): this {
-    cy.get<string[]>("@addedProducts").then((names) => {
-      names.forEach((name) => {
-        cy.get(inventoryLocators.removeButton(slugify(name))).should(
-          "be.visible"
-        );
-      });
     });
     return this;
   }

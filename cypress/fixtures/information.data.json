@@ -1,22 +1,22 @@
 {
   "information": {
     "validInformation": {
-      "firstname": "jhon",
-      "lastname": "kh",
-      "zipcode": "5000"
-    },
-    "invalidInformation1": {
-      "firstname": "jhon",
-      "lastname": "kh",
-      "zipcode": "aa"
-    },
-    "invalidInformation2": {
-      "firstname": "",
-      "lastname": "kh",
+      "firstname": "John",
+      "lastname": "Doe",
       "zipcode": "6000"
     },
-    "invalidInformation3": {
-      "firstname": "rodri",
+    "emptyPostalCode": {
+      "firstname": "John",
+      "lastname": "Doe",
+      "zipcode": ""
+    },
+    "emptyFirstName": {
+      "firstname": "",
+      "lastname": "Doe",
+      "zipcode": "6000"
+    },
+    "emptyLastName": {
+      "firstname": "John",
       "lastname": "",
       "zipcode": "6000"
     }

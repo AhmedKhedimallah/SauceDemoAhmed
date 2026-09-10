@@ -2,18 +2,10 @@ import cartLocators from "../locators/cart.locators";
 import { slugify } from "../support/utils";
 
 class CartPage {
-  verifySelectedProductInCart(): this {
-    cy.get<string>("@selectedProduct").then((name) => {
+  /** Assert every given product name is listed in the cart. Works for 1 or N products. */
+  verifyProductsInCart(names: string[]): this {
+    names.forEach((name) => {
       cy.get(cartLocators.cartItemName).should("contain.text", name);
-    });
-    return this;
-  }
-
-  verifyAddedProductsInCart(): this {
-    cy.get<string[]>("@addedProducts").then((names) => {
-      names.forEach((name) => {
-        cy.get(cartLocators.cartItemName).should("contain.text", name);
-      });
     });
     return this;
   }

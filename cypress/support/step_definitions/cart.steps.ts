@@ -59,12 +59,16 @@ Then("the cart badge should show {string}", (count: string) => {
 
 // Scenario 1 — the single added product's button must now read "Remove".
 Then("the selected product button should change to {string}", () => {
-  inventoryPage.verifySelectedProductRemoveButton();
+  cy.get<string>("@selectedProduct").then((name) => {
+    inventoryPage.verifyProductsRemoveButtons([name]);
+  });
 });
 
 // Scenario 2 — every added product's button must now read "Remove".
 Then("each added product button should change to {string}", () => {
-  inventoryPage.verifyAddedProductsRemoveButtons();
+  cy.get<string[]>("@addedProducts").then((names) => {
+    inventoryPage.verifyProductsRemoveButtons(names);
+  });
 });
 
 // ============================================================
@@ -73,12 +77,16 @@ Then("each added product button should change to {string}", () => {
 
 // Scenario 1 — the remembered product (@selectedProduct) is listed in the cart.
 Then("the selected product should be listed in the cart", () => {
-  cartPage.verifySelectedProductInCart();
+  cy.get<string>("@selectedProduct").then((name) => {
+    cartPage.verifyProductsInCart([name]);
+  });
 });
 
 // Scenario 2 — all remembered products (@addedProducts) are listed in the cart.
 Then("all added products should be listed in the cart", () => {
-  cartPage.verifyAddedProductsInCart();
+  cy.get<string[]>("@addedProducts").then((names) => {
+    cartPage.verifyProductsInCart(names);
+  });
 });
 
 //  Scenario 3: Remove product to the cart

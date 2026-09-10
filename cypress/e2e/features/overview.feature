@@ -13,7 +13,7 @@ Feature: SauceDemo - Information
     When I add the cheapest product to the cart
     When I open the cart
     And I click on the checkout button
-    And I enter "John" as first name, "Doe" as last name, and "6000" as postal code
+    And I enter the "validInformation" checkout information
     And I click Continue
     Then the user should be redirected to the Overview page
     And the selected product should be listed in the cart
@@ -30,7 +30,7 @@ Feature: SauceDemo - Information
     When I open the cart
     Then all added products should be listed in the cart
     And I click on the checkout button
-    And I enter "John" as first name, "Doe" as last name, and "6000" as postal code
+    And I enter the "validInformation" checkout information
     And I click Continue
     Then the user should be redirected to the Overview page
     And all added products should be listed in the cart
@@ -47,7 +47,7 @@ Feature: SauceDemo - Information
     When I open the cart
     Then all added products should be listed in the cart
     And I click on the checkout button
-    And I enter "John" as first name, "Doe" as last name, and "6000" as postal code
+    And I enter the "validInformation" checkout information
     And I click Continue
     Then the user should be redirected to the Overview page
     When the user cancel payement
