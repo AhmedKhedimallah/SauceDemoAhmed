@@ -7,6 +7,7 @@ const informationLocators = {
   buttonfinish: "[data-test='finish']",
   // Required-field validation error (same data-test as the login error).
   errorMessage: "[data-test='error']",
+  buttonCancel: "[data-test='cancel']",
 } as const;
 
 export default informationLocators;
