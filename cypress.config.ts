@@ -4,6 +4,10 @@ import { addCucumberPreprocessorPlugin } from "@badeball/cypress-cucumber-prepro
 import { createEsbuildPlugin } from "@badeball/cypress-cucumber-preprocessor/esbuild";
 
 export default defineConfig({
+  // Cypress Cloud project id — required for `--record` / `--parallel`.
+  // Create the project at https://cloud.cypress.io, then replace this value
+  // (or set the CYPRESS_PROJECT_ID env var, which overrides it).
+  projectId: "n75tme",
   e2e: {
     baseUrl: "https://www.saucedemo.com",
     specPattern: "cypress/e2e/features/**/*.feature",

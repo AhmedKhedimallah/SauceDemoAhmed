@@ -7,6 +7,8 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run",
+    "cy:run:record": "cypress run --record",
+    "cy:run:parallel": "cypress run --record --parallel",
     "test:login": "cypress run --spec \"cypress/e2e/features/login.feature\"",
     "test:filter": "cypress run --env tags=\"@filter\"",
     "test:cart": "cypress run --env tags=\"@cart\"",
