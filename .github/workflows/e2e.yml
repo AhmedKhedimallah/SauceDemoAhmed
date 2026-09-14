@@ -1,4 +1,4 @@
-name: Cypress E2E (gated: smoke → regression → e2e)
+name: "Cypress E2E (gated: smoke -> regression -> e2e)"
 
 # Runs the BDD suite on Linux (matches the WSL reference environment) as three
 # GATED stages (no Cypress Cloud recording — runs locally on the runner):
