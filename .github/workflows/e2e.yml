@@ -1,13 +1,12 @@
 name: Cypress E2E (gated: smoke → regression → e2e)
 
 # Runs the BDD suite on Linux (matches the WSL reference environment) as three
-# GATED stages recorded to Cypress Cloud:
+# GATED stages (no Cypress Cloud recording — runs locally on the runner):
 #   1. smoke       — critical happy-path. If it fails, nothing else runs.
 #   2. regression  — full functional coverage. Runs only if smoke passed.
 #   3. endtoend    — full user journeys. Runs only if regression passed.
 # Gating is enforced with `needs:` — a stage starts only when its prerequisite
-# succeeded. All three share the same ci-build-id, so Cypress Cloud groups them
-# under one run (groups: smoke-linux / regression-linux / e2e-linux).
+# succeeded. Cucumber reports and failure screenshots are kept as artifacts.
 on:
   push:
     branches: [main, master]
@@ -51,10 +50,7 @@ jobs:
         run: npm ci
 
       - name: Run @smoke (gate)
-        run: npm run cy:run:record -- --env tags="@smoke" --group "smoke-linux" --ci-build-id "${{ github.run_id }}-${{ github.run_attempt }}"
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+        run: npm run cy:run -- --env tags="@smoke"
 
       - name: Upload Cucumber reports
         if: always()
@@ -90,10 +86,7 @@ jobs:
         run: npm ci
 
       - name: Run @regression
-        run: npm run cy:run:record -- --env tags="@regression" --group "regression-linux" --ci-build-id "${{ github.run_id }}-${{ github.run_attempt }}"
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+        run: npm run cy:run -- --env tags="@regression"
 
       - name: Upload Cucumber reports
         if: always()
@@ -129,10 +122,7 @@ jobs:
         run: npm ci
 
       - name: Run @endtoend
-        run: npm run cy:run:record -- --env tags="@endtoend" --group "e2e-linux" --ci-build-id "${{ github.run_id }}-${{ github.run_attempt }}"
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+        run: npm run cy:run -- --env tags="@endtoend"
 
       - name: Upload Cucumber reports
         if: always()
