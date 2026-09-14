@@ -1,4 +1,4 @@
-name: "Cypress E2E (gated: smoke -> regression -> e2e)"
+name: "Cypress E2E (gated: smoke -> regression -> e2e, parallel specs per stage)"
 
 # Runs the BDD suite on Linux (matches the WSL reference environment) as three
 # GATED stages, each recorded to Cypress Cloud (project n75tme):
@@ -6,8 +6,10 @@ name: "Cypress E2E (gated: smoke -> regression -> e2e)"
 #   2. regression  — full functional coverage. Runs only if smoke passed.
 #   3. endtoend    — full user journeys. Runs only if regression passed.
 # Gating is enforced with `needs:` — a stage starts only when its prerequisite
-# succeeded. The three stages share one ci-build-id, so Cypress Cloud groups them
-# under a single run (groups: smoke-linux / regression-linux / e2e-linux).
+# succeeded. Within each stage, specs are split across 2 parallel containers via
+# a matrix + `cypress run --record --parallel`; all containers of a stage share
+# one ci-build-id so Cypress Cloud load-balances specs between them and groups
+# the stage under a single run (groups: smoke-linux / regression-linux / e2e-linux).
 # Requires the CYPRESS_RECORD_KEY secret (Settings -> Secrets and variables -> Actions).
 on:
   push:
@@ -38,6 +40,10 @@ jobs:
   smoke:
     needs: typecheck
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        container: [1, 2]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -51,8 +57,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run @smoke (gate)
-        run: npm run cy:run:record -- --env tags="@smoke" --group "smoke-linux" --ci-build-id "${{ github.run_id }}-${{ github.run_attempt }}"
+      - name: Run @smoke (gate, parallel container ${{ matrix.container }})
+        run: npm run cy:run:parallel -- --env tags="@smoke" --group "smoke-linux" --ci-build-id "${{ github.run_id }}-${{ github.run_attempt }}"
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
@@ -60,7 +66,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cucumber-reports-smoke
+          name: cucumber-reports-smoke-${{ matrix.container }}
           path: cypress/reports/
           if-no-files-found: ignore
 
@@ -68,7 +74,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-screenshots-smoke
+          name: cypress-screenshots-smoke-${{ matrix.container }}
           path: cypress/screenshots/
           if-no-files-found: ignore
 
@@ -76,6 +82,10 @@ jobs:
     # Runs ONLY if smoke passed.
     needs: smoke
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        container: [1, 2]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -89,8 +99,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run @regression
-        run: npm run cy:run:record -- --env tags="@regression" --group "regression-linux" --ci-build-id "${{ github.run_id }}-${{ github.run_attempt }}"
+      - name: Run @regression (parallel container ${{ matrix.container }})
+        run: npm run cy:run:parallel -- --env tags="@regression" --group "regression-linux" --ci-build-id "${{ github.run_id }}-${{ github.run_attempt }}"
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
@@ -98,7 +108,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cucumber-reports-regression
+          name: cucumber-reports-regression-${{ matrix.container }}
           path: cypress/reports/
           if-no-files-found: ignore
 
@@ -106,7 +116,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-screenshots-regression
+          name: cypress-screenshots-regression-${{ matrix.container }}
           path: cypress/screenshots/
           if-no-files-found: ignore
 
@@ -114,6 +124,10 @@ jobs:
     # Runs ONLY if regression passed.
     needs: regression
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        container: [1, 2]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -127,8 +141,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run @endtoend
-        run: npm run cy:run:record -- --env tags="@endtoend" --group "e2e-linux" --ci-build-id "${{ github.run_id }}-${{ github.run_attempt }}"
+      - name: Run @endtoend (parallel container ${{ matrix.container }})
+        run: npm run cy:run:parallel -- --env tags="@endtoend" --group "e2e-linux" --ci-build-id "${{ github.run_id }}-${{ github.run_attempt }}"
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
@@ -136,7 +150,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cucumber-reports-endtoend
+          name: cucumber-reports-endtoend-${{ matrix.container }}
           path: cypress/reports/
           if-no-files-found: ignore
 
@@ -144,6 +158,6 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-screenshots-endtoend
+          name: cypress-screenshots-endtoend-${{ matrix.container }}
           path: cypress/screenshots/
           if-no-files-found: ignore
