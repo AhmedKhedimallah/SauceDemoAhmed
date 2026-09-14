@@ -41,6 +41,17 @@ Then("the Finish button should be displayed", () => {
 // INVALID INFORMATION
 // ============================================================
 
+// Invalid-input combinations come straight from the Scenario Outline's Examples
+// table (inline literals, one required-field case per row), so the step is thin
+// glue: it forwards the three values to the page, which skips empty fields to
+// trigger the app's own required-field validation.
+When(
+  "I enter {string} as first name, {string} as last name, and {string} as postal code",
+  (firstName: string, lastName: string, postalCode: string) => {
+    informationPage.fillCheckoutInformation(firstName, lastName, postalCode);
+  }
+);
+
 // The expected text is resolved from the fixture's messages section by its key
 // (same pattern as login.steps.ts), so the .feature carries keys, not literals.
 Then("the {string} error message should be displayed", (messageKey: string) => {
