@@ -5,3 +5,7 @@ cypress/videos/
 cypress/downloads/
 *.log
 .DS_Store
+
+# Chrome installer — never commit (136MB, exceeds GitHub 100MB limit)
+google-chrome-stable_current_amd64.deb
+*.deb
