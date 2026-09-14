@@ -15,18 +15,22 @@ Feature: SauceDemo - Products sorting / filter
     Then the active sort option should be "Name (A to Z)"
     And the product names should be sorted in "ascending" order
 
+  @regression
   Scenario: Sort products by Name (A to Z)
     When I sort the products by "Name (A to Z)"
     Then the product names should be sorted in "ascending" order
 
+  @regression
   Scenario: Sort products by Name (Z to A)
     When I sort the products by "Name (Z to A)"
     Then the product names should be sorted in "descending" order
 
+  @regression
   Scenario: Sort products by Price (low to high)
     When I sort the products by "Price (low to high)"
     Then the product prices should be sorted in "ascending" order
 
+  @regression
   Scenario: Sort products by Price (high to low)
     When I sort the products by "Price (high to low)"
     Then the product prices should be sorted in "descending" order

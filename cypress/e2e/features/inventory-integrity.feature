@@ -9,6 +9,6 @@ Feature: SauceDemo - Inventory visual integrity (problem_user)
     Given I am logged in as "problemUser"
     And I am on the inventory page
 
-  @negative @problemuser
+  @regression @negative @problemuser
   Scenario: problem_user shows the same broken image for every product
     Then all product images should be identical

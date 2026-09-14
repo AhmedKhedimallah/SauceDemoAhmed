@@ -12,29 +12,29 @@ Feature: SauceDemo - Login
     When I login with the "standardUser" account
     Then I should be redirected to the inventory page
 
-  @negative
+  @regression @negative
   Scenario: Login blocked for a locked out user
     When I login with the "lockedOutUser" account
     Then I should see the error message "lockedOut"
 
-  @negative
+  @regression @negative
   Scenario: Login rejected with invalid credentials
     When I login with the "invalidUser" account
     Then I should see the error message "invalidCredentials"
 
-  @negative
+  @regression @negative
   Scenario: Login rejected when username is missing
     When I enter the username "" and the password "secret_sauce"
     And I click the login button
     Then I should see the error message "usernameRequired"
 
-  @negative
+  @regression @negative
   Scenario: Login rejected when password is missing
     When I enter the username "standard_user" and the password ""
     And I click the login button
     Then I should see the error message "passwordRequired"
 
-  @negative
+  @regression @negative
   Scenario Outline: Login rejected for multiple invalid combinations
     When I enter the username "<username>" and the password "<password>"
     And I click the login button

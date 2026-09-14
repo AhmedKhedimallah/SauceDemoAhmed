@@ -9,7 +9,7 @@ Feature: SauceDemo - Complete
     Given I am logged in as "standardUser"
     And I am on the inventory page
 
-  @endtoend @complete
+  @smoke @complete
   Scenario: 1 - Complete an order for a single product
     When I add the cheapest product to the cart
     And I open the cart

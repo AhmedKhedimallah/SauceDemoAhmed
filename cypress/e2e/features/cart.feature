@@ -9,7 +9,7 @@ Feature: SauceDemo - Cart
     Given I am logged in as "standardUser"
     And I am on the inventory page
 
-  @endtoend @cart
+  @smoke @cart
   Scenario: 1 - Add the cheapest product to the cart
     When I add the cheapest product to the cart
     Then the cart badge should show "1"
@@ -17,7 +17,7 @@ Feature: SauceDemo - Cart
     When I open the cart
     Then the selected product should be listed in the cart
 
-  @cart
+  @regression @cart
   Scenario: 2 - Add multiple products to the cart
     When I add the following products to the cart:
       | Sauce Labs Backpack     |
@@ -28,7 +28,7 @@ Feature: SauceDemo - Cart
     When I open the cart
     Then all added products should be listed in the cart
 
-  @cart
+  @regression @cart
   Scenario: 3 - Remove the selected product from the cart
     When I add the cheapest product to the cart
     Then the cart badge should show "1"
@@ -37,7 +37,7 @@ Feature: SauceDemo - Cart
     Then the cart badge should decrease by 1
     And the selected product should no longer be displayed in the cart
 
-  @cart
+  @regression @cart
   Scenario: 4 - Redirect to the checkout information page
     When I add the following products to the cart:
       | Sauce Labs Backpack     |

@@ -55,8 +55,13 @@ cypress/
   `{ failOnStatusCode: false }`, or the visit fails.
 
 ## Tags & scripts
-- Tag scenarios: `@smoke`, `@filter`, `@cart`, `@endtoend`, `@negative`, `@positive`,
-  `@problemuser`.
+- Tag scenarios: `@smoke`, `@regression`, `@endtoend`, `@filter`, `@cart`,
+  `@negative`, `@positive`, `@problemuser`.
+- **Test-level tiers (exactly one per scenario)** — `@smoke` (critical happy-path,
+  fast, gating), `@regression` (full functional coverage), `@endtoend` (full user
+  journeys). CI runs them gated in that order (smoke → regression → e2e); each stage
+  runs only if the previous passed. `@filter`/`@cart`/`@negative`/... are orthogonal
+  category tags, kept alongside the tier tag.
 - Run subsets via tags: `npx cypress run --env tags="@cart"`.
 - `filterSpecs`/`omitFiltered` are enabled → tag runs load only matching specs.
 - npm scripts: `cy:run`, `cy:open`, `test:login`, `test:filter`, `test:cart`,
