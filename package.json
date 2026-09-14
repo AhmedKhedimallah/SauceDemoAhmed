@@ -13,6 +13,7 @@
     "test:filter": "cypress run --env tags=\"@filter\"",
     "test:cart": "cypress run --env tags=\"@cart\"",
     "test:integrity": "cypress run --env tags=\"@problemuser\"",
+    "test:complete": "cypress run --env tags=\"@complete\"",
     "test:smoke": "cypress run --env tags=\"@smoke\"",
     "test:headed": "cypress run --headed --browser chrome",
     "typecheck": "tsc --noEmit",

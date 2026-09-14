@@ -32,3 +32,12 @@ export interface InformationData {
   /** Keys must match the "messages" section of information.data.json */
   messages: Record<string, string>;
 }
+
+/**
+ * Shape of cypress/fixtures/complete.data.json.
+ * Order-confirmation texts, resolved by key (same per-feature convention).
+ */
+export interface CompleteData {
+  /** Keys must match the "messages" section of complete.data.json */
+  messages: Record<string, string>;
+}
