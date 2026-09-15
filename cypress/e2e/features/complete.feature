@@ -22,15 +22,15 @@ Feature: SauceDemo - Complete
     Then the order confirmation "orderComplete" message should be displayed
     And the order dispatch "orderDispatched" message should be displayed
 
-  # @endtoend @complete
-  # Scenario: 2 - Return to the products page after completing an order
-  #   When I add the cheapest product to the cart
-  #   And I open the cart
-  #   And I click on the checkout button
-  #   And I enter the "validInformation" checkout information
-  #   And I click Continue
-  #   Then the user should be redirected to the Overview page
-  #   When I click Finish
-  #   Then the order confirmation "orderComplete" message should be displayed
-  #   When I click Back Home
-  #   Then the user should be redirected to the inventory page
+  @endtoend @complete
+  Scenario: 2 - Return to the products page after completing an order
+    When I add the cheapest product to the cart
+    And I open the cart
+    And I click on the checkout button
+    And I enter the "validInformation" checkout information
+    And I click Continue
+    Then the user should be redirected to the Overview page
+    When I click Finish
+    Then the order confirmation "orderComplete" message should be displayed
+    When I click Back Home
+    Then the user should be redirected to the inventory page
